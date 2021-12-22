@@ -1,0 +1,21 @@
+{
+    "name": "Container Node",
+    "service": "service-node-app",
+    "workspaceFolder": "/dev/app",
+    "dockerComposeFile": "./docker-compose.yml",
+    "forwardPorts": [
+        8080
+    ],
+    "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "octref.vetur"
+    ],
+    "shutdownAction": "stopCompose",
+    "settings": {
+        // https://github.com/romkatv/powerlevel10k#fonts
+        "terminal.integrated.fontFamily": "MesloLGS NF",
+        "vetur.validation.template": false
+    }
+}

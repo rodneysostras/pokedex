@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  service-node-app:
+    build: .
+    container_name: node-ap
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+    volumes:
+       - ../:/dev/app
+       - /dev/app/node_modules
+    working_dir: /dev/app
