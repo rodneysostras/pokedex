@@ -1,6 +1,6 @@
 
-<h1>
-    <img src=".github/assets/img/icon-readme.png" alt="" height="42em" align="left"/>
+<h1 align="center">
+    <img src=".github/assets/img/icon-readme.png" alt="" height="60em" />
     Pokédex
 </h1>
 <div align="center">
