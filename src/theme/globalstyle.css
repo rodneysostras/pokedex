@@ -40,7 +40,7 @@ body {
 }
 
 #app {
-    display:flex;
+    display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
@@ -60,5 +60,5 @@ a {
 }
 
 .svg-color {
-    filter: var(--filter-color)
+    filter: var(--filter-color);
 }

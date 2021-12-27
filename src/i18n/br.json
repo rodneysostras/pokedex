@@ -1,5 +1,21 @@
 {
+    "lang": "pt-br",
     "message": {
-        "language": "Português Brasil"
+        "language": "Português Brasil",
+        "loading": "Carregando ..."
+    },
+    "field" : {
+        "search": "pesquisar",
+        "all": "todos",
+        "pokemon": "pokemon",
+        "id": "ID",
+        "type": "tipo",
+        "species": "espécie"
+    },
+    "error": {
+        "404" : "Não foi encontrado",
+        "403" : "Sem permissão de acesso",
+        "500" : "Servidor não responde",
+        "undefined": "Erro não especificado"
     }
 }
