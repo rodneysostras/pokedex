@@ -54,7 +54,7 @@ Utilizei o framework VueJS para consumindo uma API pública com dados dos pokemo
 ## 🎯 Requisitos
 
 -   [x] Consumir API https://pokeapi.co/docs/v2#info.
--   [ ] Listagem dos Pokémon com scrol Infinito.
+-   [x] Listagem dos Pokémon com scrol Infinito.
 -   [ ] Filtros para nome, id, tipo e espécie.
 -   [ ] Suporte aos i18n.
     -   [ ] Idioma Português.
@@ -63,9 +63,9 @@ Utilizei o framework VueJS para consumindo uma API pública com dados dos pokemo
 -   [ ] Card do pokémon.
     -   [ ] Todos os sprites do Pokémon.
     -   [ ] Seus movimentos de Ataques.
-    -   [ ] Visualizar às evoluções de cada Pokémon, se houver.
+    -   [x] Visualizar às evoluções de cada Pokémon, se houver.
     -   [ ] Visualizar todos os games (game_indices) que o Pokémon está presente.
--   [ ] Deploy na Vercel.
+-   [x] Deploy na Vercel.
 
 <br />
 
@@ -116,13 +116,13 @@ Caso não esteja habituado com o Vercel, você pode recorrer a seguinte document
 
 ## 📦 Recursos
 
--   [ ] Responsivo.
+-   [x] Responsivo.
 -   [ ] Dark theme.
 -   [ ] Página de erro '404 - not found'.
 -   [ ] Vuex - Gerenciador de estado
 -   [ ] Testes automatizados
--   [ ] Github Page - SPA routing.
--   [ ] SEO
+-   [x] Github Page - SPA routing.
+-   [x] SEO
 
 ## 🚀 Como executar o projeto
 
