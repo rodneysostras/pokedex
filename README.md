@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-<h1>
-    <img src=".github/assets/img/icon-readme.png" alt="" height="42em" align="left"/>
-=======
-
 <h1 align="center">
     <img src=".github/assets/img/icon-readme.png" alt="" height="60em" />
->>>>>>> 913da88925a74a394e9fcfa73fc0a5db1f73ae5b
     Pokédex
 </h1>
 <div align="center">
