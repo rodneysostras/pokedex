@@ -1,8 +1,9 @@
 {
-    "name": "Container Node",
-    "service": "service-node-app",
+    "name": "Container development VueJS",
+    "service": "service-development-vue",
     "workspaceFolder": "/dev/app",
     "dockerComposeFile": "./docker-compose.yml",
+    "shutdownAction": "stopCompose",
     "forwardPorts": [
         8080
     ],
@@ -12,7 +13,6 @@
         "esbenp.prettier-vscode",
         "octref.vetur"
     ],
-    "shutdownAction": "stopCompose",
     "settings": {
         // https://github.com/romkatv/powerlevel10k#fonts
         "terminal.integrated.fontFamily": "MesloLGS NF",

@@ -1,7 +1,5 @@
 FROM node:16-alpine
 
-MAINTAINER Rodney Sostras <rodney.sostras@gmail.com>
-
 RUN apk --update --upgrade add git zsh zsh-autosuggestions zsh-syntax-highlighting && \
     rm -rf /var/cache/apk/* \
     && find / -type f -iname \*.apk-new -delete \

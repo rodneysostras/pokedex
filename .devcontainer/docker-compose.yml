@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-  service-node-app:
+  service-development-vue:
     build: .
-    container_name: node-ap
+    container_name: development-vue
     ports:
       - "8080:8080"
     stdin_open: true
