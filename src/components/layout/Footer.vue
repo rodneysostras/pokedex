@@ -1,5 +1,5 @@
 <template>
-    <footer class="container text-xs font-bold">
+    <footer class="w-5/6 mx-auto text-xs font-bold">
         <section class="flex justify-between items-center p-4">
             <p>Copyright © {{ new Date().getFullYear() }} Rodney Sostras</p>
             <ul class="flex items-center gap-x-2.5 list-none">

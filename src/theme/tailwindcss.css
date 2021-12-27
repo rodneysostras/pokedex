@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-    .container {
-      @apply max-w-2xl mx-auto;
+    .--container-pokemon {
+        @apply w-96 mx-auto;
     }
-  }
+}
