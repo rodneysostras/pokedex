@@ -1,4 +1,3 @@
-
 <h1>
     <img src=".github/assets/img/icon-readme.png" alt="" height="42em" align="left"/>
     Pokédex
@@ -23,6 +22,7 @@
     <a href="#-como-executar-o-projeto">Como executar</a> •
     <a href="#-tecnologias">Tecnologias</a> •
     <a href="#-autor">Autor</a> • 
+    <a href="#-creditos">Creditos</a> • 
     <a href="#-licença">Licença</a>
 </p>
 
@@ -53,19 +53,19 @@ Utilizei o framework VueJS para consumindo uma API pública com dados dos pokemo
 
 ## 🎯 Requisitos
 
-- [ ] Consumir API https://pokeapi.co/docs/v2#info.
-- [ ] Listagem dos Pokémon com scrol Infinito.
-- [ ] Filtros para nome, id, tipo e espécie.
-- [ ] Suporte aos i18n.
-	- [ ] Idioma Português.
-	- [ ] Idioma Inglês.
-	- [ ] Idioma Espanhol.
-- [ ] Card do pokémon.
-	- [ ] Todos os sprites do Pokémon.
-	- [ ] Seus movimentos de Ataques.
-	- [ ] Visualizar às evoluções de cada Pokémon, se houver.
-	- [ ] Visualizar todos os games (game_indices) que o Pokémon está presente.
-- [ ] Deploy na Vercel.
+-   [x] Consumir API https://pokeapi.co/docs/v2#info.
+-   [ ] Listagem dos Pokémon com scrol Infinito.
+-   [ ] Filtros para nome, id, tipo e espécie.
+-   [ ] Suporte aos i18n.
+    -   [ ] Idioma Português.
+    -   [ ] Idioma Inglês.
+    -   [ ] Idioma Espanhol.
+-   [ ] Card do pokémon.
+    -   [ ] Todos os sprites do Pokémon.
+    -   [ ] Seus movimentos de Ataques.
+    -   [ ] Visualizar às evoluções de cada Pokémon, se houver.
+    -   [ ] Visualizar todos os games (game_indices) que o Pokémon está presente.
+-   [ ] Deploy na Vercel.
 
 <br />
 
@@ -108,20 +108,21 @@ Se conseguir, utilize VueX para gerenciamento de estado;
 
 Se conseguir, torne a aplicação responsiva.
 
-Quanto a infra-estrutura, a sua aplicação deve estar publicada no Vercel (https://vercel.com/) e seu código deve estar acessível em sua conta do Github. Não iremos considerar a entrega de uma aplicação que não esteja publicada e de um código que não esteja no Github, de modo que possamos avaliar a evolução do seu código, ou seja, não aceitaremos a entrega funcionando apenas em Localhost. 
+Quanto a infra-estrutura, a sua aplicação deve estar publicada no Vercel (https://vercel.com/) e seu código deve estar acessível em sua conta do Github. Não iremos considerar a entrega de uma aplicação que não esteja publicada e de um código que não esteja no Github, de modo que possamos avaliar a evolução do seu código, ou seja, não aceitaremos a entrega funcionando apenas em Localhost.
 
 Caso não esteja habituado com o Vercel, você pode recorrer a seguinte documentação: https://vercel.com/guides/deploying-vuejs-to-vercel .
+
 </blockquote>
 
 ## 📦 Recursos
 
-- [ ] Responsivo.
-- [ ] Dark theme.
-- [ ] Página de erro '404 - not found'.
-- [ ] Vuex - Gerenciador de estado
-- [ ] Testes automatizados
-- [ ] Github Page - SPA routing.
-- [ ] SEO
+-   [ ] Responsivo.
+-   [ ] Dark theme.
+-   [ ] Página de erro '404 - not found'.
+-   [ ] Vuex - Gerenciador de estado
+-   [ ] Testes automatizados
+-   [ ] Github Page - SPA routing.
+-   [ ] SEO
 
 ## 🚀 Como executar o projeto
 
@@ -136,6 +137,7 @@ $ npm install
 $ npm run serve
 # A aplicação será aberta na porta:8080 - acesse http://localhost:8080
 ```
+
 > Na pasta `.devcontainer` possui as configurações para subir o container docker do ambiente de desenvolvimento deste projeto \
 > Fique a vontade para usar o docker-composer ou a extensão do vscode `Remote Development` que e o recomendado \
 > Após o start do container realize o comando no container `npm install` depois `npm run serve`
@@ -151,9 +153,10 @@ $ npm run serve
 -   **[@vue/cli](https://cli.vuejs.org/)** • Ferramenta de linha de comando feita pela comunidade do Vue.
 -   **[Vercel](https://vercel.com/)** • Plataforma voltada para a hospedagem de aplicações.
 
-> Veja o arquivo  [package.json](https://github.com/rodneysostras/pokedex/blob/main/package.json)
+> Veja o arquivo [package.json](https://github.com/rodneysostras/pokedex/blob/main/package.json)
 
 ## 🦸 Autor
+
 <table align="left">
   <tr>
     <td align="center">
@@ -191,12 +194,18 @@ $ npm run serve
 
 <br />
 
+## 🎨 Creditos
+
+-   Na criação do componente CardPokemon da página home me inspirei no design do artista [BryanC - Pokemon OG](https://dribbble.com/shots/2901787/attachments/600885?mode=media)
+-   Me espirei na página pokemon no design do artista [Austin Jones - Pokédex Gengar](https://dribbble.com/shots/5619897-Pok-dex-Gengar/attachments/10965748?mode=media)
+-   No componente CardPokemonDescription da página favorite me espirei no design do artista [Emil Komachkov - Pokemania APP Screens](https://dribbble.com/shots/13794991-Pokemania-App-Screens/attachments/5401272?mode=media)
+
 ## 📝 Licença
 
 Este projeto esta sobe a licença [MIT](./LICENSE).
 
 Feito com ❤️ por Rodney Sostras 👋🏽 [Entre em contato!](https://www.linkedin.com/in/rodney-sostras/)
-        
+
 <br />
         
 <div align="right"><a href="#">Voltar ao topo ⬆</a></div>
