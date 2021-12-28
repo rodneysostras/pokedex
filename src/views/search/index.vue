@@ -9,6 +9,9 @@
             <ListPokemon :onChange="this.pokemons" :onChangeHandle="this.lazyPokemonsDisplay" />
             <LoadingSpinner v-show="this.loading" />
             <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
+            <p class="w-full p-8 font-semibold text-center text-gray-400">
+                {{ `${this.$t('message.total-pokemons')} ${this.pokemons.length} / ${this.totalPokemons}` }}
+            </p>
         </section>
     </Container>
 </template>
@@ -112,8 +115,15 @@ export default {
                 .catch(this.stopLoadingAndShowError);
         },
     },
+    computed: {
+        totalPokemons() {
+            return this.lazy.length || this.pokemons.length;
+        },
+    },
     mounted() {
         this.setPokemons();
+
+        window.scrollTo(0, 0);
     },
     created() {
         this.endpoint = this.$route.params.endpoint;

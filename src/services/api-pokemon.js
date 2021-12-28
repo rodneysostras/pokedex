@@ -164,9 +164,14 @@ export class ApiService {
             limit: limit || this.DEFAULT_LIMIT,
             offset: offset || this.DEFAULT_OFFSET,
         };
-        return this.request('/pokemon', TREATED_PARAMS).then(({ results }) => {
+        return this.request('/pokemon', TREATED_PARAMS).then(({ count, results }) => {
             const promises = results.map(({ name }) => this.getByName(name));
-            return Promise.all(promises);
+            return Promise.all(promises).then((pokemons) => {
+                return {
+                    count,
+                    pokemons,
+                };
+            });
         });
     }
 }

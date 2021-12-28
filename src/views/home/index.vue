@@ -9,6 +9,9 @@
             <ListPokemon :onChange="this.pokemons" :onChangeHandle="this.lazyPokemonsDisplay" />
             <LoadingSpinner v-show="this.loading" />
             <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
+            <p class="w-full p-8 font-semibold text-center text-gray-400">
+                {{ `${this.$t('message.total-pokemons')} ${this.pokemons.length} / ${this.totalPokemons}` }}
+            </p>
         </section>
     </Container>
 </template>
@@ -39,6 +42,7 @@ export default {
         return {
             loading: true,
             pokemons: [],
+            totalPokemons: 0,
             offset: 0,
             limit: ApiPokemon.DEFAULT_LIMIT,
             error: undefined,
@@ -62,13 +66,17 @@ export default {
             this.loading = true;
 
             const promise = () =>
-                ApiPokemon.getPokemonList(this.offset, this.limit).then((pokemons) => {
+                ApiPokemon.getPokemonList(this.offset, this.limit).then(({ count, pokemons }) => {
                     this.offset += this.limit;
+                    this.totalPokemons = count;
                     this.pokemons = this.pokemons.concat(pokemons);
                 });
 
             return promise().then(this.stopLoadingAndContinue).catch(this.stopLoadingAndShowError);
         },
+    },
+    mounted() {
+        window.scrollTo(0, 0);
     },
 };
 </script>
