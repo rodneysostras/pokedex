@@ -2,7 +2,7 @@
     <ul id="pokemon-list" class="relative flex flex-row flex-wrap justify-center items-center w-full gap-3 px-2">
         <li
             :data-id="idx"
-            :key="`${pokemon.datasheet.id}-${pokemon.datasheet.name}`"
+            :key="`${pokemon.id}-${pokemon.name}`"
             v-for="(pokemon, idx) in this.onChange"
             class="w-full sm:w-72 h-28"
         >

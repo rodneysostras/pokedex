@@ -1,10 +1,10 @@
 <template>
     <Container class="min-h-full w-full styled-pokemon">
-        <ScreenHeader :dataset="this.datasheet"><ScreenNav /></ScreenHeader>
-        <ScreenTypes :dataset="this.types" />
-        <ScreenAesthetic :dataset="this.aesthetic" />
-        <ScreenEvolution :dataset="this.evolution" />
-        <ScreenStats :dataset="this.stats" />
+        <ScreenHeader :dataset="this.pokemon"><ScreenNav /></ScreenHeader>
+        <ScreenTypes :dataset="this.pokemon.types" />
+        <ScreenAesthetic :dataset="this.pokemon" />
+        <ScreenEvolution :dataset="this.pokemon.evolution" />
+        <ScreenStats :dataset="this.pokemon.stats" />
         <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
         <LoadingSpinner v-show="this.loading" />
     </Container>
@@ -41,23 +41,21 @@ export default {
             loading: true,
             error: undefined,
             identifier: '',
-            datasheet: {
+            pokemon: {
                 id: '0',
                 number: '#000',
                 name: '',
                 image: '',
-            },
-            aesthetic: {
                 species: '',
                 height: 0,
                 weight: 0,
-            },
-            stats: [],
-            types: [],
-            evolution: [],
-            style: {
-                color: '#0000001f',
-                background: '#0000001f',
+                stats: [],
+                types: [],
+                evolution: [],
+                style: {
+                    color: '#0000001f',
+                    background: '#0000001f',
+                },
             },
         };
     },
@@ -67,22 +65,20 @@ export default {
             Promise.all([this.searchPokemon()])
                 .then(() => this.searchEvolution())
                 .then(() => (this.loading = false))
-                .catch(({ status }) => {
+                .catch((error) => {
                     this.loading = false;
-                    this.error = { status };
+                    this.error = error.status || error;
                 });
         },
         searchPokemon() {
-            return ApiPokemon.getByName(this.identifier).then(({ datasheet, aesthetic, stats, types, style }) => {
-                this.datasheet = datasheet;
-                this.aesthetic = aesthetic;
-                this.stats = stats;
-                this.types = types;
-                this.style = style;
+            return ApiPokemon.getByName(this.identifier).then((pokemon) => {
+                this.pokemon = pokemon;
             });
         },
         searchEvolution() {
-            return ApiPokemon.getEvolutionList(this.datasheet.id).then((evolution) => (this.evolution = evolution));
+            return ApiPokemon.getEvolutionList(this.pokemon.id).then(
+                (evolution) => (this.pokemon.evolution = evolution)
+            );
         },
     },
     watch: {
@@ -91,6 +87,8 @@ export default {
         },
     },
     mounted() {
+        window.scrollTo(0, 0);
+
         this.setPokemon(this.$route.params.identifier);
     },
 };
@@ -98,8 +96,8 @@ export default {
 
 <style>
 .styled-pokemon {
-    --pokemon-color: v-bind('style.color');
-    --pokemon-background: v-bind('style.background');
+    --pokemon-color: v-bind('pokemon.style.color');
+    --pokemon-background: v-bind('pokemon.style.background');
 }
 
 .--pokemon-color {

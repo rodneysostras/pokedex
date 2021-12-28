@@ -20,7 +20,7 @@ export default {
     name: 'ScreenStatsPokemon',
     props: {
         dataset: {
-            type: Object,
+            type: Array,
             requered: true,
         },
     },

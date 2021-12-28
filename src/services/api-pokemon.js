@@ -94,16 +94,12 @@ export class ApiService {
                 const { color, background } = getStyle(types[0].type.name);
 
                 return {
-                    datasheet: {
-                        id,
-                        number: formatterID(id),
-                        name,
-                        image,
-                    },
-                    aesthetic: {
-                        height,
-                        weight,
-                    },
+                    id,
+                    number: formatterID(id),
+                    name,
+                    image,
+                    height,
+                    weight,
                     stats,
                     sprites,
                     moves,
@@ -146,10 +142,10 @@ export class ApiService {
         return this.request(`/pokemon-species/${identifier}`).then(({ evolution_chain }) => {
             return this.request(evolution_chain.url).then(({ chain }) => {
                 const promises = handlerSpecies(chain).map((specie) => {
-                    return this.getByName(specie.name).then(({ datasheet }) => {
-                        specie['id'] = datasheet.id;
-                        specie['number'] = datasheet.number;
-                        specie['image'] = datasheet.image;
+                    return this.getByName(specie.name).then(({ id, number, image }) => {
+                        specie['id'] = id;
+                        specie['number'] = number;
+                        specie['image'] = image;
                         return specie;
                     });
                 });

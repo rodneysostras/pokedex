@@ -12,7 +12,7 @@
                 <h1 class="font-bold text-3xl capitalize">
                     {{ this.dataset.name }}
                 </h1>
-                <p class="font-semibold">#{{ this.formattedID }}</p>
+                <p class="font-semibold">#{{ this.dataset.number }}</p>
             </div>
         </div>
     </header>
@@ -35,17 +35,13 @@ export default {
                 type: String,
                 requered: true,
             },
-        },
-        background: {
-            type: String,
-            requered: false,
-            default: 'var(--pokemon-type-background);',
-        },
-    },
-    computed: {
-        formattedID() {
-            const id = this.dataset.id;
-            return `${'000'.substr(id.toString().length)}${id}`;
+            style: {
+                background: {
+                    type: String,
+                    requered: false,
+                    default: 'var(--pokemon-type-background);',
+                },
+            },
         },
     },
 };
