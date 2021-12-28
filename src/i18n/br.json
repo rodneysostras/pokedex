@@ -2,10 +2,11 @@
     "lang": "pt-br",
     "message": {
         "language": "Português Brasil",
-        "loading": "Carregando ..."
+        "loading": "Carregando ...",
+        "total-pokemons": "Total de pokemons"
     },
     "field" : {
-        "search": "pesquisar",
+        "search": "Pesquisar",
         "all": "todos",
         "pokemon": "pokemon",
         "id": "ID",
