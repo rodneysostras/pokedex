@@ -6,7 +6,7 @@
             </ScreenSearch>
         </ScreenTitle>
         <section class="flex-1">
-            <ListPokemon :onChange="this.pokemons" :onChangeHandle="this.lazyPokemons" />
+            <ListPokemon :onChange="this.pokemons" :onChangeHandle="this.lazyPokemonsDisplay" />
             <LoadingSpinner v-show="this.loading" />
             <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
         </section>
@@ -45,28 +45,29 @@ export default {
         };
     },
     methods: {
+        stopLoadingAndContinue(v) {
+            this.loading = false;
+            return v;
+        },
+        stopLoadingAndShowError(error) {
+            this.loading = false;
+            this.error = error.status || error;
+        },
         onSubmitSearch({ endpoint, identifier }) {
             this.$router.push(`/search/${endpoint}/${identifier}`);
         },
-        lazyPokemons() {
+        async lazyPokemonsDisplay() {
             if (this.error) return;
 
             this.loading = true;
 
-            const promise = ApiPokemon.getPokemonList(this.offset, this.limit).then((pokemons) => {
-                this.offset += this.limit;
-                this.pokemons = this.pokemons.concat(pokemons);
-            });
-
-            return Promise.all([promise])
-                .then((v) => {
-                    setTimeout(() => (this.loading = false), 2000);
-                    return v[0];
-                })
-                .catch(({ status }) => {
-                    this.loading = false;
-                    this.error = { status };
+            const promise = () =>
+                ApiPokemon.getPokemonList(this.offset, this.limit).then((pokemons) => {
+                    this.offset += this.limit;
+                    this.pokemons = this.pokemons.concat(pokemons);
                 });
+
+            return promise().then(this.stopLoadingAndContinue).catch(this.stopLoadingAndShowError);
         },
     },
 };
