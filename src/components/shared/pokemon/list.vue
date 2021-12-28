@@ -35,6 +35,13 @@ export default {
             finished: undefined,
         };
     },
+    watch: {
+        onChange: {
+            handler() {
+                this.finished = undefined;
+            },
+        },
+    },
     mounted() {
         const obs = document.getElementById('--end-list--');
 
@@ -54,8 +61,8 @@ export default {
         window.onresize = () => exitViewportObs();
 
         if (true === 'IntersectionObserver' in window) {
-            this.observer = new IntersectionObserver(() => exitViewportObs());
-            this.observer.observe(obs);
+            const observer = new IntersectionObserver(() => exitViewportObs());
+            observer.observe(obs);
         } else {
             // unsupported browsers 'IntersectionObserver'
             window.onscroll = () => exitViewportObs();
