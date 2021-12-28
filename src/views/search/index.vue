@@ -49,8 +49,11 @@ export default {
     },
     methods: {
         loadPromises(promise) {
-            Promise.all(promise)
-                .then(() => setTimeout(() => (this.loading = false), 2000))
+            return Promise.all(promise)
+                .then((v) => {
+                    setTimeout(() => (this.loading = false), 2000);
+                    return v[0];
+                })
                 .catch(({ status }) => {
                     this.loading = false;
                     this.error = { status };
@@ -67,25 +70,19 @@ export default {
         setPokemons() {
             this.loading = true;
             this.pokemons = [];
+            this.offset = 0;
+            this.limit = ApiPokemon.DEFAULT_LIMIT;
             this.error = undefined;
 
-            const fn = (pokemon) => {
-                this.pokemons = [pokemon];
-            };
+            const setPokemon = (pokemon) => (this.pokemons = [pokemon]);
 
             const promise_error = () => new Promise(({ reject }) => reject({ status: '404' }));
 
             const types_search = {
-                all: () => ApiPokemon.getByName(this.search).then(fn),
-                id: () => ApiPokemon.getByName(parseInt(this.search) || 0).then(fn),
-                pokemon: () => ApiPokemon.getByName(this.search).then(fn),
-                type: () =>
-                    ApiPokemon.getLazyByType(this.search).then((pokemons) => {
-                        this.offset = 0;
-                        this.limit =
-                            pokemons.length > ApiPokemon.DEFAULT_LIMIT ? ApiPokemon.DEFAULT_LIMIT : pokemons.length;
-                        this.lazy = pokemons;
-                    }),
+                all: () => ApiPokemon.getByName(this.search).then(setPokemon),
+                id: () => ApiPokemon.getByName(parseInt(this.search) || 0).then(setPokemon),
+                pokemon: () => ApiPokemon.getByName(this.search).then(setPokemon),
+                type: () => ApiPokemon.getLazyByType(this.search).then((pokemons) => (this.lazy = pokemons)),
             };
 
             const promise = types_search[this.endpoint] || promise_error;
@@ -97,21 +94,20 @@ export default {
 
             this.loading = true;
 
-            const fn = (pokemon) => {
-                this.pokemons = this.pokemons.concat(pokemon);
-            };
+            const setPokemon = (pokemon) => (this.pokemons = this.pokemons.concat(pokemon));
 
             const promise = () => {
                 const END_LIST = this.offset + this.limit;
 
                 this.lazy.slice(this.offset, END_LIST).forEach(({ datasheet }) => {
-                    ApiPokemon.getByName(datasheet.name).then(fn);
+                    ApiPokemon.getByName(datasheet.name).then(setPokemon);
                 });
 
                 this.offset = END_LIST;
+                return this.offset > this.lazy.length;
             };
 
-            this.loadPromises([promise()]);
+            return this.loadPromises([promise()]);
         },
     },
     mounted() {
@@ -120,6 +116,8 @@ export default {
     created() {
         this.endpoint = this.$route.params.endpoint;
         this.search = this.$route.params.identifier;
+
+        window.scrollTo(0, 0);
     },
 };
 </script>

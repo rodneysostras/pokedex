@@ -40,7 +40,7 @@ export default {
             loading: true,
             pokemons: [],
             offset: 0,
-            limit: 20,
+            limit: ApiPokemon.DEFAULT_LIMIT,
             error: undefined,
         };
     },
@@ -59,7 +59,10 @@ export default {
             });
 
             return Promise.all([promise])
-                .then(() => setTimeout(() => (this.loading = false), 2000))
+                .then((v) => {
+                    setTimeout(() => (this.loading = false), 2000);
+                    return v[0];
+                })
                 .catch(({ status }) => {
                     this.loading = false;
                     this.error = { status };
