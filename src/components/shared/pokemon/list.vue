@@ -1,13 +1,15 @@
 <template>
-    <ul id="pokemon-list" class="flex flex-row flex-wrap justify-center items-center gap-3 px-2">
+    <ul id="pokemon-list" class="relative flex flex-row flex-wrap justify-center items-center w-full gap-3 px-2">
         <li
+            :data-index-number="idx"
             :data-id="`${pokemon.datasheet.id}-${pokemon.datasheet.name}`"
             :key="`${pokemon.datasheet.id}-${pokemon.datasheet.name}`"
-            v-for="pokemon in this.onChange"
+            v-for="(pokemon, idx) in this.onChange"
             class="w-full sm:w-72 h-28"
         >
             <CardPokemon :dataset="pokemon" />
         </li>
+        <li class="absolute w-full bottom-20" id="--end-list--"></li>
     </ul>
 </template>
 
@@ -30,32 +32,35 @@ export default {
     },
     data() {
         return {
-            promise: undefined,
+            observer: undefined,
+            finished: undefined,
         };
     },
-    methods: {
-        onFullScreen() {
-            if (this.promise) return;
-
-            const el = document.documentElement;
-
-            const hasScroll = el.scrollHeight > window.innerHeight;
-            const bottomOfWindow =
-                el.scrollTop + window.innerHeight >= el.offsetHeight - (window.innerHeight * 30) / 100;
-
-            if (!hasScroll || bottomOfWindow) {
-                this.promise = Promise.all([this.onChangeHandle()]).then(() => {
-                    this.promise = undefined;
-                    if (!hasScroll) setTimeout(() => this.onFullScreen(), 2000);
-                });
-            }
-        },
-    },
     mounted() {
-        window.onscroll = () => this.onFullScreen();
-        window.onresize = () => this.onFullScreen();
+        const obs = document.getElementById('--end-list--');
 
-        this.onFullScreen();
+        const exitViewportObs = () => {
+            if (this.finished) return;
+
+            const bounding = obs.getBoundingClientRect();
+
+            if (window.innerHeight > bounding.bottom) {
+                this.finished = Promise.all([this.onChangeHandle()])
+                    .then((v) => (this.finished = v[0]))
+                    .then(() => setTimeout(() => exitViewportObs(), 1500));
+            }
+        };
+
+        window.onresize = () => exitViewportObs();
+
+        if (true === 'IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(() => exitViewportObs());
+            this.observer.observe(obs);
+        } else {
+            // unsupported browsers 'IntersectionObserver'
+            window.onscroll = () => exitViewportObs();
+            exitViewportObs();
+        }
     },
 };
 </script>
