@@ -61,10 +61,10 @@ Utilizei o framework VueJS para consumindo uma API pública com dados dos pokemo
     -   [ ] Idioma Inglês.
     -   [ ] Idioma Espanhol.
 -   [ ] Card do pokémon.
-    -   [ ] Todos os sprites do Pokémon.
+    -   [x] Todos os sprites do Pokémon.
     -   [ ] Seus movimentos de Ataques.
     -   [x] Visualizar às evoluções de cada Pokémon, se houver.
-    -   [ ] Visualizar todos os games (game_indices) que o Pokémon está presente.
+    -   [x] Visualizar todos os games (game_indices) que o Pokémon está presente.
 -   [x] Deploy na Vercel.
 
 <br />
