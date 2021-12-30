@@ -34,8 +34,8 @@ body {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1rem;
     line-height: 1.5;
-    color: var(--text-color);
-    background-color: var(--bg-body);
+    color: var(--text-color) !important;
+    background-color: var(--bg-color) !important;
     transition: background 0.2s linear;
 }
 
