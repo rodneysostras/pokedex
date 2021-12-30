@@ -26,14 +26,17 @@ export default {
             id: {
                 type: Number,
                 requered: true,
+                default: 0,
             },
             name: {
                 type: String,
                 requered: true,
+                default: '',
             },
             image: {
                 type: String,
                 requered: true,
+                default: '',
             },
             style: {
                 background: {

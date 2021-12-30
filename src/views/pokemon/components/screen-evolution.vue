@@ -1,6 +1,7 @@
 <template>
-    <Container title="evolution">
+    <Container :title="this.$t('field.evolution')">
         <div class="flex flex-row justify-evenly w-full">
+            <slot />
             <template :key="`image-${item.name}`" v-for="item in this.dataset">
                 <div class="flex flex-col items-center justify-center text-xs leading-3" v-if="item.level !== 0">
                     <div class="flex flex-col justify-center items-center h-16">
@@ -25,15 +26,15 @@ import VerticalDivider from './vertical-divider';
 
 export default {
     name: 'ScreenEvolutionPokemon',
+    components: {
+        Container,
+        VerticalDivider,
+    },
     props: {
         dataset: {
             type: Array,
             requered: true,
         },
-    },
-    components: {
-        Container,
-        VerticalDivider,
     },
 };
 </script>
