@@ -4,6 +4,6 @@
 
 @layer components {
     .--container-pokemon {
-        @apply w-96 mx-auto;
+        @apply max-w-sm w-full mx-auto;
     }
 }
