@@ -104,13 +104,9 @@ export class ApiService {
                     sprites,
                     moves,
                     game_indices,
-                    types: types.map((item) => {
-                        return { ...getStyle(item.type.name), name: item.type.name };
-                    }),
-                    style: {
-                        color,
-                        background,
-                    },
+                    types: types.map(({ type }) => ({ ...getStyle(type.name), name: type.name })),
+                    style: { color, background },
+                    getEvolutions: () => this.getEvolutions(id),
                 };
             }
         );
@@ -124,8 +120,10 @@ export class ApiService {
         });
     }
 
-    getEvolutionList(identifier) {
-        function handlerSpecies({ species, evolves_to, evolution_details }) {
+    getEvolutions(identifier) {
+        let evolutions = { genus: '', chain: [] };
+
+        function getChainEvolution({ species, evolves_to, evolution_details }) {
             let pokemons = [{ name: species.name, level: 0 }];
 
             if (evolution_details.length) {
@@ -133,24 +131,32 @@ export class ApiService {
             }
 
             evolves_to.forEach((evolves) => {
-                pokemons = pokemons.concat(handlerSpecies(evolves));
+                pokemons = pokemons.concat(getChainEvolution(evolves));
             });
 
             return pokemons;
         }
 
-        return this.request(`/pokemon-species/${identifier}`).then(({ evolution_chain }) => {
+        function getGenusTranslation(value) {
+            return value
+                .filter(({ language }) => language.name === 'en')
+                .map(({ genus }) => genus.replace('Pokémon', '').trim())[0];
+        }
+
+        // 1 - Buscar espécies do pokemon
+        return this.request(`/pokemon-species/${identifier}`).then(({ evolution_chain, genera }) => {
+            evolutions.genus = getGenusTranslation(genera);
+            // 2 - Buscar cadeia de evolução do pokémon
             return this.request(evolution_chain.url).then(({ chain }) => {
-                const promises = handlerSpecies(chain).map((specie) => {
-                    return this.getByName(specie.name).then(({ id, number, image }) => {
-                        specie['id'] = id;
-                        specie['number'] = number;
-                        specie['image'] = image;
-                        return specie;
+                // 3 - Realiza tratamento da informação da cadeia de evolução
+                const promises = getChainEvolution(chain).map(({ name, level }, idx) => {
+                    // 4 - Busca informação de cada pokémon da cadeia de evolução
+                    return this.getByName(name).then(({ id, number, image }) => {
+                        evolutions.chain[idx] = { id, number, name, level, image };
                     });
                 });
-
-                return Promise.all(promises);
+                // 5 - Aguarda termino das busca de informação de cada pokémon
+                return Promise.all(promises).then(() => evolutions);
             });
         });
     }
