@@ -3,7 +3,10 @@
     "message": {
         "language": "Português Brasil",
         "loading": "Carregando ...",
-        "total-pokemons": "Total de pokemons"
+        "total-pokemons": "Total de pokemons",
+        "not-there-evolution": "Não há evolução",
+        "not-game-present": "Não há informação",
+        "404": "Não possui"
     },
     "field" : {
         "search": "Pesquisar",
@@ -11,7 +14,10 @@
         "pokemon": "pokemon",
         "id": "ID",
         "type": "tipo",
-        "species": "espécie"
+        "species": "espécie",
+        "evolution": "Evoluções",
+        "stats": "Estatísticas",
+        "game-present": "Games"
     },
     "error": {
         "404" : "Não foi encontrado",
