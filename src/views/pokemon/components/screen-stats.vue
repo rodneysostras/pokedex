@@ -1,5 +1,5 @@
 <template>
-    <Container :title="this.$t('field.stats')">
+    <Container :title="this.$t('field.stats')" layout="stats">
         <div class="flex flex-col justify-evenly items-center w-full">
             <slot />
             <div class="flex flex-row items-center w-full" :key="item.stat.name" v-for="item in this.dataset">

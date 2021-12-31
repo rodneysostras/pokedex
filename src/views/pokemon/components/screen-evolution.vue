@@ -1,6 +1,6 @@
 <template>
-    <Container :title="this.$t('field.evolution')">
-        <div class="flex flex-row justify-evenly w-full">
+    <Container :title="this.$t('field.evolution')" layout="evolution">
+        <div class="flex flex-row justify-center w-full overflow-hidden overflow-x-auto whitespace-nowrap">
             <slot />
             <template :key="`image-${item.name}`" v-for="item in this.dataset">
                 <div class="flex flex-col items-center justify-center text-xs leading-3" v-if="item.level !== 0">

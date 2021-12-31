@@ -3,19 +3,23 @@
         <ScreenHeader :dataset="this.pokemon"><ScreenNav /></ScreenHeader>
         <ScreenTypes :dataset="this.types" />
         <ScreenAesthetic :dataset="this.aesthetic" />
-        <ScreenEvolution :dataset="this.evolutions">
-            <p class="text-sm text-gray-400" v-show="this.error_evolutions">
-                {{ this.$t(`message.not-there-evolution`) }}
-            </p>
-            <LoadingPokeball v-show="!this.evolutions_chain && !this.error_evolutions" />
-        </ScreenEvolution>
-        <ScreenStats :dataset="this.stats">
-            <LoadingPokeball v-show="!this.stats.length" />
-        </ScreenStats>
-        <ScreenGameIndices :dataset="this.game_indices">
-            <LoadingPokeball v-show="this.loading" />
-        </ScreenGameIndices>
-        <ScreenSprites :dataset="this.sprites" />
+        <div class="grid-layout">
+            <ScreenEvolution :dataset="this.evolutions">
+                <p class="text-sm text-gray-400" v-show="this.error_evolutions">
+                    {{ this.$t(`message.not-there-evolution`) }}
+                </p>
+                <LoadingPokeball v-show="!this.evolutions_chain && !this.error_evolutions" />
+            </ScreenEvolution>
+            <ScreenStats :dataset="this.stats">
+                <LoadingPokeball v-show="!this.stats.length" />
+            </ScreenStats>
+            <ScreenAbout />
+            <ScreenGameIndices :dataset="this.game_indices">
+                <LoadingPokeball v-show="this.loading" />
+            </ScreenGameIndices>
+            <ScreenSprites :dataset="this.sprites" />
+            <ScreenMoves />
+        </div>
         <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
         <LoadingSpinner v-show="this.loading" />
     </Container>
@@ -28,10 +32,12 @@ import BoxError from '@/components/shared/box/error';
 import Container from '@/components/shared/container';
 import LoadingSpinner from '@/components/shared/loading-spinner';
 import LoadingPokeball from '@/components/shared/loading/pokeball';
+import ScreenAbout from './components/screen-about';
 import ScreenAesthetic from './components/screen-aesthetic';
 import ScreenEvolution from './components/screen-evolution';
 import ScreenGameIndices from './components/screen-game-indices';
 import ScreenHeader from './components/screen-header';
+import ScreenMoves from './components/screen-moves';
 import ScreenNav from './components/screen-nav';
 import ScreenSprites from './components/screen-sprites';
 import ScreenTypes from './components/screen-types';
@@ -44,10 +50,12 @@ export default {
         Container,
         LoadingSpinner,
         LoadingPokeball,
+        ScreenAbout,
         ScreenAesthetic,
         ScreenEvolution,
         ScreenGameIndices,
         ScreenHeader,
+        ScreenMoves,
         ScreenNav,
         ScreenSprites,
         ScreenTypes,
@@ -144,5 +152,34 @@ export default {
 
 .border-curve {
     border-radius: 0% 0% 50% 50% / 0% 0% 20% 20%;
+}
+
+.grid-layout {
+    display: grid;
+    grid:
+        'evolution'
+        'stats'
+        'about'
+        'sprites'
+        'moves'
+        'games';
+}
+.grid-layout-about {
+    grid-area: about;
+}
+.grid-layout-evolution {
+    grid-area: evolution;
+}
+.grid-layout-sprites {
+    grid-area: sprites;
+}
+.grid-layout-games {
+    grid-area: games;
+}
+.grid-layout-stats {
+    grid-area: stats;
+}
+.grid-layout-moves {
+    grid-area: moves;
 }
 </style>
