@@ -1,5 +1,5 @@
 <template>
-    <Container title="sprites">
+    <Container title="sprites" layout="sprites">
         <div class="w-full">
             <template :key="item.name" v-for="(item, idx) in this.dataset">
                 <input
@@ -8,12 +8,12 @@
                     :id="`slide-${idx}`"
                     :value="`slide-${idx}`"
                     class="peer hidden"
-                    v-model="this.current"
+                    :checked="idx === 0"
                 />
                 <div class="relative h-32 w-full select-none fade">
                     <div class="absolute top-0 left-0">{{ `${idx + 1} / ${this.datasize}` }}</div>
                     <img :src="item.value" alt="" class="max-h-20 h-full mx-auto" />
-                    <span class="absolute bottom-2 w-full text-center uppercase">{{
+                    <span class="absolute bottom-2 w-full font-semibold text-sm text-center uppercase">{{
                         this.formatterText(item.name)
                     }}</span>
                     <label class="absolute top-1/3 left-0 text-3xl cursor-pointer" :for="`slide-${idx - 1}`"
@@ -40,11 +40,6 @@ export default {
             type: Array,
             requered: true,
         },
-    },
-    data() {
-        return {
-            current: 'slide-0',
-        };
     },
     computed: {
         datasize() {

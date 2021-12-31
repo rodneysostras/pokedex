@@ -1,5 +1,5 @@
 <template>
-    <Container :title="this.$t('field.game-present')">
+    <Container :title="this.$t('field.game-present')" layout="game">
         <slot />
         <ul class="flex flex-row items-center justify-center flex-wrap gap-2 w-full text-white">
             <li
