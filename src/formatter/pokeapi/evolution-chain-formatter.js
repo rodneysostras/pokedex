@@ -1,6 +1,6 @@
 import extractIdPokemonFromUrlPokeApi from '@/utils/extract-id-pokeapi';
 import { threeNumberFormatter } from '@/formatter/number-formatter';
-import getOfficialArtworkByPokemonID from '@/constants/pokemon-official-artwork';
+import getImageByPokemonID from '@/utils/pokemon-image';
 
 export function pokeApiEvolutionChainFormatter({ chain }) {
     const handleEvolutionType = (details) => {
@@ -24,7 +24,7 @@ export function pokeApiEvolutionChainFormatter({ chain }) {
                 id,
                 number: threeNumberFormatter(id),
                 name: species.name,
-                image: getOfficialArtworkByPokemonID(id),
+                image: getImageByPokemonID(id),
                 evolution: {},
             },
         ];

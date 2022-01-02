@@ -1,2 +1,4 @@
-export { default as pokemonTypeColors } from './pokemon-styles-colors';
-export { default as pokemonTypeIcon } from './pokemon-type-icons';
+export * from './extract-id-pokeapi';
+export * from './pokemon-image';
+export * from './pokemon-styles-colors';
+export * from './pokemon-type-icons';
