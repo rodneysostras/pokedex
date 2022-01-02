@@ -17,7 +17,10 @@
         "species": "espécie",
         "evolution": "Evoluções",
         "stats": "Estatísticas",
-        "game-present": "Games"
+        "about": "About",
+        "sprites": "Fotos",
+        "game-present": "Games",
+        "moves": "Movimentos"
     },
     "error": {
         "404" : "Não foi encontrado",

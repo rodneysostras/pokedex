@@ -4,29 +4,32 @@
         <ScreenTypes :dataset="this.types" />
         <ScreenAesthetic :dataset="this.aesthetic" />
         <div class="grid-layout">
-            <ScreenEvolution :dataset="this.evolutions">
-                <p class="text-sm text-gray-400" v-show="this.error_evolutions">
+            <ScreenEvolution :dataset="this.pokemon_evolution">
+                <p class="text-sm text-gray-400" v-show="this.error_pokemon_evolution">
                     {{ this.$t(`message.not-there-evolution`) }}
                 </p>
-                <LoadingPokeball v-show="!this.evolutions_chain && !this.error_evolutions" />
+                <LoadingPokeball v-show="!this.pokemon_evolution.length && !this.error_pokemon_evolution" />
             </ScreenEvolution>
             <ScreenStats :dataset="this.stats">
                 <LoadingPokeball v-show="!this.stats.length" />
             </ScreenStats>
             <ScreenAbout />
             <ScreenGameIndices :dataset="this.game_indices">
-                <LoadingPokeball v-show="this.loading" />
+                <LoadingPokeball v-show="this.loading && !this.game_indices.length" />
             </ScreenGameIndices>
-            <ScreenSprites :dataset="this.sprites" />
+            <ScreenSprites :dataset="this.sprites">
+                <LoadingPokeball v-show="this.loading && !this.sprites.length" />
+            </ScreenSprites>
             <ScreenMoves />
         </div>
-        <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
+        <BoxError :text="this.error_pokemon && this.$t(`error.${this.error_pokemon.status}`)" />
         <LoadingSpinner v-show="this.loading" />
     </Container>
 </template>
 
 <script>
-import ApiPokemon from '@/services/api-pokemon';
+import PokeApiServices from '@/services/pokeapi-services';
+import { pokeApiPokemonFormatter, pokeApiEvolutionChainFormatter, pokeApiEspeciesFormatter } from '@/formatter/pokeapi';
 
 import BoxError from '@/components/shared/box/error';
 import Container from '@/components/shared/container';
@@ -64,21 +67,31 @@ export default {
     data() {
         return {
             loading: true,
-            error: undefined,
-            error_evolutions: undefined,
+            error_pokemon: undefined,
+            error_pokemon_evolution: undefined,
             pokemon: {},
-            evolutions_chain: {},
+            pokemon_evolution: [],
+            pokemon_species: {},
         };
     },
     methods: {
-        setEvolutions() {
-            return this.pokemon
-                .getEvolutions()
-                .then((e) => (this.evolutions_chain = e))
-                .catch(() => (this.error_evolutions = true));
+        async setPokemon(identifier) {
+            return await PokeApiServices.getPokemonByName(identifier)
+                .then((p) => (this.pokemon = pokeApiPokemonFormatter(p)))
+                .catch((err) => {
+                    this.loading = false;
+                    this.error_pokemon = err.status || err;
+                });
         },
-        setPokemon(identifier) {
-            return ApiPokemon.getByName(identifier).then((p) => (this.pokemon = p));
+        async setPokemonSpecies() {
+            return await PokeApiServices.getEspeciesByPokemonName(this.pokemon.id)
+                .then((e) => (this.pokemon_species = pokeApiEspeciesFormatter(e)))
+                .catch((err) => (this.error_pokemon = err.status || err));
+        },
+        async setPokemonEvolution() {
+            return await PokeApiServices.getEvolutionChain(this.pokemon_species.evolution_chain_id)
+                .then((e) => (this.pokemon_evolution = pokeApiEvolutionChainFormatter(e)))
+                .catch((err) => (this.error_pokemon_evolution = err.status || err));
         },
     },
     watch: {
@@ -95,12 +108,9 @@ export default {
         aesthetic() {
             const { height, weight } = this.pokemon;
 
-            return this.evolutions_chain.genus
-                ? { species: this.evolutions_chain.genus, height, weight }
+            return this.pokemon_species.genus
+                ? { species: this.pokemon_species.genus, height, weight }
                 : { species: '-', height: height || 0, weight: weight || 0 };
-        },
-        evolutions() {
-            return this.evolutions_chain.chain || [];
         },
         stats() {
             return this.pokemon.stats || [];
@@ -115,7 +125,6 @@ export default {
             return this.pokemon.style ? this.pokemon.style.color : '#fff';
         },
         background() {
-            console.log(this.pokemon);
             return this.pokemon.style ? this.pokemon.style.background : '#0000001f';
         },
     },
@@ -125,13 +134,9 @@ export default {
         const identifier = this.$route.params.identifier;
 
         this.setPokemon(identifier)
-            .then(() => this.setEvolutions())
-            .then(() => (this.loading = false))
-            .catch((error) => {
-                this.loading = false;
-                this.error = error.status || error;
-                console.log('error:', error);
-            });
+            .then(() => this.setPokemonSpecies())
+            .then(() => this.setPokemonEvolution())
+            .then(() => (this.loading = false));
     },
 };
 </script>

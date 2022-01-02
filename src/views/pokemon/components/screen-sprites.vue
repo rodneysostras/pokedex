@@ -1,5 +1,5 @@
 <template>
-    <Container title="sprites" layout="sprites">
+    <Container :title="this.$t('field.sprites')" layout="sprites">
         <div class="w-full">
             <template :key="item.name" v-for="(item, idx) in this.dataset">
                 <input

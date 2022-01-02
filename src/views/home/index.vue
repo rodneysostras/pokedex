@@ -6,7 +6,7 @@
             </ScreenSearch>
         </ScreenTitle>
         <section class="flex-1">
-            <ListPokemon :onChange="this.pokemons" :onChangeHandle="this.lazyPokemonsDisplay" />
+            <ListPokemon :list="this.pokemons" :onChangeHandle="this.showPokemonsLazyMode" />
             <LoadingSpinner v-show="this.loading" />
             <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
             <p class="w-full p-8 font-semibold text-center text-gray-400">
@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import ApiPokemon from '@/services/api-pokemon';
+import PokeApiServices from '@/services/pokeapi-services';
+import ApiParams from '@/constants/api-params';
 
 import BoxError from '@/components/shared/box/error';
 import Container from '@/components/shared/container';
@@ -43,8 +44,8 @@ export default {
             loading: true,
             pokemons: [],
             totalPokemons: 0,
-            offset: 0,
-            limit: ApiPokemon.DEFAULT_LIMIT,
+            offset: ApiParams.API_DEFAULT_OFFSET,
+            limit: ApiParams.API_DEFAULT_LIMIT,
             error: undefined,
         };
     },
@@ -60,19 +61,19 @@ export default {
         onSubmitSearch({ endpoint, identifier }) {
             this.$router.push(`/search/${endpoint}/${identifier}`);
         },
-        async lazyPokemonsDisplay() {
+        async showPokemonsLazyMode() {
             if (this.error) return;
 
             this.loading = true;
 
-            const promise = () =>
-                ApiPokemon.getPokemonList(this.offset, this.limit).then(({ count, pokemons }) => {
+            return await PokeApiServices.getPokemonsInDetail(this.offset, this.limit)
+                .then(({ count, results }) => {
                     this.offset += this.limit;
                     this.totalPokemons = count;
-                    this.pokemons = this.pokemons.concat(pokemons);
-                });
-
-            return promise().then(this.stopLoadingAndContinue).catch(this.stopLoadingAndShowError);
+                    this.pokemons = this.pokemons.concat(results);
+                })
+                .then(this.stopLoadingAndContinue)
+                .catch(this.stopLoadingAndShowError);
         },
     },
     mounted() {

@@ -6,7 +6,7 @@
             </ScreenSearch>
         </ScreenTitle>
         <section class="flex-1">
-            <ListPokemon :onChange="this.pokemons" :onChangeHandle="this.lazyPokemonsDisplay" />
+            <ListPokemon :list="this.pokemons" :onChangeHandle="this.showPokemonsLazyMode" />
             <LoadingSpinner v-show="this.loading" />
             <BoxError :text="this.error && this.$t(`error.${this.error.status}`)" />
             <p class="w-full p-8 font-semibold text-center text-gray-400">
@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import ApiPokemon from '@/services/api-pokemon';
+import PokeApiServices from '@/services/pokeapi-services';
+import ApiParams from '@/constants/api-params';
 
 import Container from '@/components/shared/container';
 import SearchFilter from '@/components/shared/search/filter';
@@ -58,6 +59,7 @@ export default {
         stopLoadingAndShowError(error) {
             this.loading = false;
             this.error = error.status || error;
+            console.log(error);
         },
         onSubmitSearch({ endpoint, identifier }) {
             this.search = identifier;
@@ -67,33 +69,35 @@ export default {
 
             this.setPokemons();
         },
-        async lazyPokemonsDisplay() {
+        async showPokemonsLazyMode() {
             if (this.error) return;
             if (!this.lazy.length) return;
 
             this.loading = true;
 
-            const pokemonDefiner = (pokemon) => (this.pokemons = this.pokemons.concat(pokemon));
+            const definePokemon = (pokemon) => (this.pokemons = this.pokemons.concat(pokemon));
 
             const promise = async () => {
                 const END_LIST = this.offset + this.limit;
 
-                this.lazy.slice(this.offset, END_LIST).forEach(({ datasheet }) => {
-                    ApiPokemon.getByName(datasheet.name).then(pokemonDefiner);
+                const pokemonList = this.lazy.slice(this.offset, END_LIST);
+
+                await pokemonList.forEach(async ({ pokemon }) => {
+                    await PokeApiServices.getPokemonByName(pokemon.name).then(definePokemon);
                 });
 
                 this.offset = END_LIST;
                 return this.offset > this.lazy.length;
             };
 
-            return promise().then(this.stopLoadingAndContinue).catch(this.stopLoadingAndShowError);
+            return await promise().then(this.stopLoadingAndContinue).catch(this.stopLoadingAndShowError);
         },
         async setPokemons() {
             this.loading = true;
             this.pokemons = [];
             this.lazy = [];
-            this.offset = 0;
-            this.limit = ApiPokemon.DEFAULT_LIMIT;
+            this.offset = ApiParams.API_DEFAULT_OFFSET;
+            this.limit = ApiParams.API_DEFAULT_LIMIT;
             this.error = undefined;
 
             const pokemonDefiner = (pokemon) => (this.pokemons = [pokemon]);
@@ -101,17 +105,17 @@ export default {
             const promise_error = () => new Promise(({ reject }) => reject({ status: '404' }));
 
             const types_search = {
-                all: () => ApiPokemon.getByName(this.search).then(pokemonDefiner),
-                id: () => ApiPokemon.getByName(parseInt(this.search) || 0).then(pokemonDefiner),
-                pokemon: () => ApiPokemon.getByName(this.search).then(pokemonDefiner),
-                type: () => ApiPokemon.getLazyByType(this.search).then((pokemons) => (this.lazy = pokemons)),
+                all: () => PokeApiServices.getPokemonByName(this.search).then(pokemonDefiner),
+                id: () => PokeApiServices.getPokemonByName(parseInt(this.search) || 0).then(pokemonDefiner),
+                pokemon: () => PokeApiServices.getPokemonByName(this.search).then(pokemonDefiner),
+                type: () => PokeApiServices.getPokemonsByType(this.search).then(({ pokemon }) => (this.lazy = pokemon)),
             };
 
             const promise = types_search[this.endpoint] || promise_error;
 
             return promise()
                 .then(this.stopLoadingAndContinue)
-                .then(() => this.lazyPokemonsDisplay())
+                .then(() => this.showPokemonsLazyMode())
                 .catch(this.stopLoadingAndShowError);
         },
     },
@@ -121,9 +125,9 @@ export default {
         },
     },
     mounted() {
-        this.setPokemons();
-
         window.scrollTo(0, 0);
+
+        this.setPokemons();
     },
     created() {
         this.endpoint = this.$route.params.endpoint;

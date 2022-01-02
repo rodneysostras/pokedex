@@ -3,7 +3,7 @@
         <li
             :data-id="idx"
             :key="`${pokemon.id}-${pokemon.name}`"
-            v-for="(pokemon, idx) in this.onChange"
+            v-for="(pokemon, idx) in this.list"
             class="w-full sm:w-72 h-28"
         >
             <CardPokemon :dataset="pokemon" />
@@ -20,7 +20,7 @@ export default {
         CardPokemon,
     },
     props: {
-        onChange: {
+        list: {
             type: Array,
             requered: true,
         },
@@ -36,7 +36,7 @@ export default {
         };
     },
     watch: {
-        onChange: {
+        list: {
             handler() {
                 this.finished = undefined;
             },

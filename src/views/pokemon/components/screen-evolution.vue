@@ -3,10 +3,10 @@
         <div class="flex flex-row justify-center w-full overflow-hidden overflow-x-auto whitespace-nowrap">
             <slot />
             <template :key="`image-${item.name}`" v-for="item in this.dataset">
-                <div class="flex flex-col items-center justify-center text-xs leading-3" v-if="item.level !== 0">
+                <div class="flex flex-col items-center justify-center text-xs leading-3" v-if="item.evolution.trigger">
                     <div class="flex flex-col justify-center items-center h-16">
-                        <span>{{ item.level === null ? 'Trade' : 'Level' }}</span>
-                        <p>{{ item.level }}</p>
+                        <span>{{ item.evolution.trigger }}</span>
+                        <p>{{ item.evolution.condition }}</p>
                     </div>
                     <VerticalDivider class="flex-1" />
                 </div>

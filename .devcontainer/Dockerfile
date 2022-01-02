@@ -14,7 +14,7 @@ RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/t
 ENV SHELL=/bin/zsh
 ENV CHOKIDAR_USEPOLLING=true
 
-RUN yarn global add @vue/cli @vue/cli-service-global
+RUN yarn global add @vue/cli @vue/cli-service-global vercel
 
 WORKDIR /dev/app
 
