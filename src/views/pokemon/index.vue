@@ -13,7 +13,9 @@
             <ScreenStats :dataset="this.stats">
                 <LoadingPokeball v-show="!this.stats.length" />
             </ScreenStats>
-            <ScreenAbout />
+            <ScreenAbout :text="this.about">
+                <LoadingPokeball v-show="!this.pokemon_species.description" />
+            </ScreenAbout>
             <ScreenGameIndices :dataset="this.game_indices">
                 <LoadingPokeball v-show="this.loading && !this.game_indices.length" />
             </ScreenGameIndices>
@@ -120,6 +122,10 @@ export default {
         },
         game_indices() {
             return this.pokemon.game_indices || [];
+        },
+        about() {
+            console.log('Description:', this.pokemon_species);
+            return this.pokemon_species.description || '';
         },
         sprites() {
             return this.pokemon.sprites || [];
