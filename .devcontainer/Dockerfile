@@ -20,4 +20,6 @@ WORKDIR /dev/app
 
 COPY ../ /dev/app
 
+RUN yarn install
+
 ENTRYPOINT ["/bin/zsh"]
