@@ -5,9 +5,7 @@ import getImageByPokemonID from '@/utils/pokemon-image';
 
 import { pokeApiAllSpritesFormatter } from './all-sprites-formatter';
 
-export function pokeApiPokemonFormatter(pokemon) {
-    const { id, sprites, types, ...others } = pokemon;
-
+export function pokeApiPokemonFormatter({ id, sprites, types, ...others }) {
     return {
         ...others,
         id,
