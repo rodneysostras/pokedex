@@ -6,13 +6,19 @@ export function pokeApiEvolutionChainFormatter({ chain }) {
     const handleEvolutionType = (details) => {
         switch (details.trigger.name) {
             case 'level-up':
-                return ['Level', details.min_level];
+                if (details.min_level) return { trigger: 'level', condition: details.min_level };
+                if (details.min_happiness) return { trigger: 'happy', condition: details.min_happiness };
+                if (details.min_affection) return { trigger: 'affection', condition: details.min_affection };
+                if (details.item) return { trigger: 'use', condition: details.item.name };
+                if (details.known_move) return { trigger: 'use', condition: details.known_move.name };
+                if (details.held_item) return { trigger: 'use', condition: details.held_item.name };
+                return { trigger: 'trade', condition: '' };
             case 'trade':
-                return ['Trade', details.trade_species?.name || ''];
+                return { trigger: 'trade', condition: details.trade_species?.name || '' };
             case 'use-item':
-                return ['Use', details.item.name];
+                return { trigger: 'use', condition: details.item?.name || '' };
             default:
-                return [details.trigger.name, null];
+                return { trigger: details.trigger.name, condition: '' };
         }
     };
 
@@ -30,14 +36,12 @@ export function pokeApiEvolutionChainFormatter({ chain }) {
         ];
 
         if (evolution_details.length) {
-            const [trigger, condition] = handleEvolutionType(evolution_details[0]);
-            pokemons[0].evolution = { trigger, condition };
+            pokemons[0].evolution = handleEvolutionType(evolution_details[0]);
         }
 
         evolves_to.forEach((evolves) => {
             pokemons = pokemons.concat(handlerEvolutionChain(evolves));
         });
-
         return pokemons;
     };
 

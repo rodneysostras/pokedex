@@ -91,7 +91,10 @@ export default {
         async setPokemonEvolution() {
             return await PokeApiServices.getEvolutionChain(this.pokemon_species.evolution_chain_id)
                 .then((e) => (this.pokemon_evolution = pokeApiEvolutionChainFormatter(e)))
-                .catch((err) => (this.error_pokemon_evolution = err?.status || err));
+                .catch((err) => {
+                    this.error_pokemon_evolution = err?.status || err;
+                    console.log(err);
+                });
         },
     },
     watch: {

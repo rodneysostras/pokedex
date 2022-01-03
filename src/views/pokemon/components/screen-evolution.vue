@@ -5,7 +5,7 @@
             <template :key="`image-${item.name}`" v-for="item in this.dataset">
                 <div class="flex flex-col items-center justify-center text-xs leading-3" v-if="item.evolution.trigger">
                     <div class="flex flex-col justify-center items-center h-16">
-                        <span>{{ item.evolution.trigger }}</span>
+                        <span class="capitalize">{{ item.evolution.trigger }}</span>
                         <p>{{ item.evolution.condition }}</p>
                     </div>
                     <VerticalDivider class="flex-1" />
