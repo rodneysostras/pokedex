@@ -58,8 +58,7 @@ export default {
         },
         stopLoadingAndShowError(error) {
             this.loading = false;
-            this.error = error.status || error;
-            console.log(error);
+            this.error = error?.status || error;
         },
         onSubmitSearch({ endpoint, identifier }) {
             this.search = identifier;

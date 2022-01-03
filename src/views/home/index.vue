@@ -56,7 +56,7 @@ export default {
         },
         stopLoadingAndShowError(error) {
             this.loading = false;
-            this.error = error.status || error;
+            this.error = error?.status || error;
         },
         onSubmitSearch({ endpoint, identifier }) {
             this.$router.push(`/search/${endpoint}/${identifier}`);

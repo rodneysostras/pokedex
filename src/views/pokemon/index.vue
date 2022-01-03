@@ -80,18 +80,18 @@ export default {
                 .then((p) => (this.pokemon = pokeApiPokemonFormatter(p)))
                 .catch((err) => {
                     this.loading = false;
-                    this.error_pokemon = err.status || err;
+                    this.error_pokemon = err?.status || err;
                 });
         },
         async setPokemonSpecies() {
             return await PokeApiServices.getEspeciesByPokemonName(this.pokemon.id)
                 .then((e) => (this.pokemon_species = pokeApiEspeciesFormatter(e)))
-                .catch((err) => (this.error_pokemon = err.status || err));
+                .catch((err) => (this.error_pokemon = err?.status || err));
         },
         async setPokemonEvolution() {
             return await PokeApiServices.getEvolutionChain(this.pokemon_species.evolution_chain_id)
                 .then((e) => (this.pokemon_evolution = pokeApiEvolutionChainFormatter(e)))
-                .catch((err) => (this.error_pokemon_evolution = err.status || err));
+                .catch((err) => (this.error_pokemon_evolution = err?.status || err));
         },
     },
     watch: {
