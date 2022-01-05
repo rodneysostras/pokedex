@@ -49,7 +49,7 @@
 
 Utilizei o framework VueJS para consumindo uma API pública com dados dos pokemons, na estilização foi usado o framework TailwindCss.
 
-> Uma challenge realizada para testar meus conhecimentos tendo que comprir os requisitos abaixo. Branch de entrega `challenge-finish`.
+> Uma challenge realizada para testar meus conhecimentos tendo que comprir os requisitos abaixo. Branch de entrega [challenge-finish](https://github.com/rodneysostras/pokedex/tree/challenge-finish).
 
 ## 🎯 Requisitos
 
