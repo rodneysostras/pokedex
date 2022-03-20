@@ -169,30 +169,29 @@ export default {
 
 .grid-layout {
     display: grid;
-    grid:
-        'evolution'
-        'stats'
-        'about'
-        'sprites'
-        'moves'
-        'games';
+    grid-template-columns: repeat(auto-fit, minmax(384px, 1fr));
+    gap: 1rem;
+    width: 100%;
 }
-.grid-layout-about {
-    grid-area: about;
-}
-.grid-layout-evolution {
-    grid-area: evolution;
-}
-.grid-layout-sprites {
-    grid-area: sprites;
-}
-.grid-layout-games {
-    grid-area: games;
-}
-.grid-layout-stats {
-    grid-area: stats;
-}
-.grid-layout-moves {
-    grid-area: moves;
+
+@media screen and (min-width: 764px) {
+    .grid-layout-about {
+        order: 1;
+    }
+    .grid-layout-evolution {
+        order: 2;
+    }
+    .grid-layout-stats {
+        order: 3;
+    }
+    .grid-layout-move {
+        order: 4;
+    }
+    .grid-layout-sprites {
+        order: 5;
+    }
+    .grid-layout-game {
+        order: 6;
+    }
 }
 </style>
