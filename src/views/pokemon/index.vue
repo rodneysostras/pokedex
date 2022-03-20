@@ -22,7 +22,7 @@
             <ScreenSprites :dataset="this.sprites">
                 <LoadingPokeball v-show="this.loading && !this.sprites.length" />
             </ScreenSprites>
-            <ScreenMoves />
+            <ScreenMoves :dataset="this.moves" />
         </div>
         <BoxError :text="this.error_pokemon && this.$t(`error.${this.error_pokemon.status}`)" />
         <LoadingSpinner v-show="this.loading" />
@@ -93,10 +93,7 @@ export default {
         async setPokemonEvolution() {
             return await PokeApiServices.getEvolutionChain(this.pokemon_species.evolution_chain_id)
                 .then((e) => (this.pokemon_evolution = pokeApiEvolutionChainFormatter(e)))
-                .catch((err) => {
-                    this.error_pokemon_evolution = err?.status || err;
-                    console.log(err);
-                });
+                .catch((err) => (this.error_pokemon_evolution = err?.status || err));
         },
     },
     watch: {
@@ -124,11 +121,13 @@ export default {
             return this.pokemon.game_indices || [];
         },
         about() {
-            console.log('Description:', this.pokemon_species);
             return this.pokemon_species.description || '';
         },
         sprites() {
             return this.pokemon.sprites || [];
+        },
+        moves() {
+            return this.pokemon.moves || [];
         },
         color() {
             return this.pokemon.style ? this.pokemon.style.color : '#fff';
